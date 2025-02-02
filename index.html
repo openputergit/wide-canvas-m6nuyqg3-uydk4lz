@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureShare - Private Storage & Sharing</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-gradient-to-br from-cyan-500 to-blue-600 min-h-screen">
+    <div id="app" class="container mx-auto px-4">
+        <!-- Navigation -->
+        <nav class="flex items-center justify-between py-6">
+            <div class="text-white text-2xl font-bold">SecureShare</div>
+            <div class="flex items-center space-x-4">
+                <button @click="toggleView('files')" class="text-white hover:bg-white/20 px-4 py-2 rounded-lg">
+                    <i class="bi bi-folder"></i> Files
+                </button>
+                <button @click="toggleView('sharing')" class="text-white hover:bg-white/20 px-4 py-2 rounded-lg">
+                    <i class="bi bi-share"></i> Sharing
+                </button>
+                <button @click="toggleSettings" class="text-white hover:bg-white/20 px-4 py-2 rounded-lg">
+                    <i class="bi bi-gear"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="mt-8">
+            <!-- Files View -->
+            <div v-if="currentView === 'files'" class="bg-white/10 backdrop-blur-lg rounded-xl p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-white text-xl">My Files</h2>
+                    <button @click="uploadFile" class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-white/90">
+                        <i class="bi bi-upload"></i> Upload
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div v-for="file in files" :key="file.id" 
+                         class="bg-white/20 p-4 rounded-lg backdrop-blur-sm">
+                        <div class="flex items-center justify-between">
+                            <div class="text-white">
+                                <i :class="file.icon"></i>
+                                <span class="ml-2">{{file.name}}</span>
+                            </div>
+                            <button class="text-white hover:text-blue-200">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sharing View -->
+            <div v-if="currentView === 'sharing'" class="bg-white/10 backdrop-blur-lg rounded-xl p-6">
+                <h2 class="text-white text-xl mb-6">Shared with me</h2>
+                <div class="grid grid-cols-1 gap-4">
+                    <div v-for="share in shared" :key="share.id"
+                         class="bg-white/20 p-4 rounded-lg backdrop-blur-sm">
+                        <div class="flex items-center justify-between text-white">
+                            <div>
+                                <i :class="share.icon"></i>
+                                <span class="ml-2">{{share.name}}</span>
+                            </div>
+                            <div class="text-sm">Shared by: {{share.sharedBy}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    currentView: 'files',
+                    files: [
+                        { id: 1, name: 'Document.pdf', icon: 'bi bi-file-pdf' },
+                        { id: 2, name: 'Image.jpg', icon: 'bi bi-file-image' },
+                        { id: 3, name: 'Presentation.ppt', icon: 'bi bi-file-slides' }
+                    ],
+                    shared: [
+                        { id: 1, name: 'Team Project.doc', icon: 'bi bi-file-word', sharedBy: 'Alex' },
+                        { id: 2, name: 'Budget.xlsx', icon: 'bi bi-file-excel', sharedBy: 'Sarah' }
+                    ]
+                }
+            },
+            methods: {
+                toggleView(view) {
+                    this.currentView = view
+                },
+                toggleSettings() {
+                    alert('Settings panel coming soon!')
+                },
+                uploadFile() {
+                    alert('File upload feature coming soon!')
+                }
+            }
+        }).mount('#app')
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
